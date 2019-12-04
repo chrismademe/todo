@@ -2,6 +2,21 @@
     window.taskList = []
 
     /**
+     * Do Event
+     * @param HTMLElement element Element
+     * @param string name Event name
+     * @param object data Custom data
+     * 
+     * @NOTE I'm not using this yet, but I plan to
+     * use it instead of calling saveTasks() directly
+     * from other functions.
+     */
+    const doEvent = (element, name, data = {}) => {
+        let event = new CustomEvent(name, {detail: data})
+        element.dispatchEvent(event)
+    }
+
+    /**
      * Handle Key Press
      * @param {*} e Key press event
      * 
