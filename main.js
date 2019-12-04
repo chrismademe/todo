@@ -76,7 +76,22 @@
      * Removes a task from the list
      */
     const removeTask = (task) => {
-        task.previousElementSibling.querySelector('input[type="text"]').focus()
+        let previousTask = task.previousElementSibling
+        let nextTask = task.nextElementSibling
+
+        // Focus on the previous task if one exists
+        if ( previousTask != null ) {
+            previousTask.querySelector('input[type="text"]').focus()
+
+        // We deleted the first task
+        } else if ( nextTask != null ) {
+            nextTask.querySelector('input[type="text"]').focus()
+
+        // We deleted all tasks, so create a placeholder
+        } else {
+            createTask()
+        }
+        
         task.parentNode.removeChild(task)
         saveTasks()
     }
