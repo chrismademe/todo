@@ -17,6 +17,18 @@
     }
 
     /**
+     * Generate UID
+     * 
+     * Generates a unique ID for a task
+     */
+    const generateTaskID = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        })
+    }
+
+    /**
      * Handle Key Press
      * @param {*} e Key press event
      * 
@@ -109,6 +121,7 @@
             let name = task.querySelector('input[type="text"]').value
             let isDone = task.querySelector('input[type="checkbox"]').checked
             let object = {
+                id: task.getAttribute('data-task'),
                 name: name,
                 isDone: isDone
             }
@@ -127,12 +140,12 @@
      * 
      * Creates a new task 
      */
-    const createTask = (name = null, isDone = false) => {
+    const createTask = (name = null, isDone = false, id = null) => {
         let taskList = document.querySelector('.list')
 
         // Create Task Element
         let task = document.createElement('li')
-        task.setAttribute('data-task', 1)
+        task.setAttribute('data-task', id || generateTaskID())
         task.classList.add('flex', 'bg-white', 'mt-1', 'text-gray-800')
 
         // Create Task Checkbox
@@ -176,8 +189,8 @@
     if ( tasks ) {
         let taskList = JSON.parse(tasks)
         taskList.forEach((task) => {
-            let { name, isDone } = task
-            createTask(name, isDone)
+            let { id, name, isDone } = task
+            createTask(name, isDone, id)
         })
     } else {
         createTask()
