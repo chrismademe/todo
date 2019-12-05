@@ -146,7 +146,7 @@
         // Create Task Element
         let task = document.createElement('li')
         task.setAttribute('data-task', id || generateTaskID())
-        task.classList.add('flex', 'bg-white', 'mt-1', 'text-gray-800')
+        task.classList.add('flex', 'bg-white', 'mt-1', 'text-gray-800', 'border-solid', 'border-b', 'border-gray-300', 'py-1')
 
         // Create Task Checkbox
         let checkbox = document.createElement('input')
@@ -163,7 +163,7 @@
         // Create Task Input
         let input = document.createElement('input')
         input.setAttribute('type', 'text')
-        input.classList.add('ml-2')
+        input.classList.add('block', 'w-full', 'ml-4')
         input.setAttribute('placeholder', 'What do you need to do?')
         input.addEventListener('keyup', handleKeyPress)
 
