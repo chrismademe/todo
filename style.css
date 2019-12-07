@@ -47,7 +47,8 @@ h1 {
 
 .container {
     max-width: 72rem;
-    margin-inline: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .task {
