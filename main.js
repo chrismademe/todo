@@ -120,6 +120,10 @@
         tasks.forEach((task) => {
             let name = task.querySelector('input[type="text"]').value
             let isDone = task.querySelector('input[type="checkbox"]').checked
+
+            // Skip empty tasks
+            if ( name === '' ) return;
+
             let object = {
                 id: task.getAttribute('data-task'),
                 name: name,
@@ -146,12 +150,12 @@
         // Create Task Element
         let task = document.createElement('li')
         task.setAttribute('data-task', id || generateTaskID())
-        task.classList.add('flex', 'items-center', 'shadow-lg', 'bg-white', 'mt-2', 'text-gray-800', 'rounded', 'border-solid', 'border', 'border-gray-300', 'p-1')
+        task.classList.add('task')
 
         // Create Task Checkbox
         let checkbox = document.createElement('input')
         checkbox.setAttribute('type', 'checkbox')
-        checkbox.classList.add('p-2', 'cursor-pointer')
+        checkbox.classList.add('task__checkbox')
         checkbox.addEventListener('click', handleCheckPress)
 
         // Update checkbox state if isDone
@@ -162,7 +166,7 @@
         // Create Task Input
         let input = document.createElement('input')
         input.setAttribute('type', 'text')
-        input.classList.add('block', 'w-full', 'ml-4', 'focus:outline-none')
+        input.classList.add('task__input')
         input.setAttribute('placeholder', 'What do you need to do?')
         input.addEventListener('keyup', handleKeyPress)
 
@@ -171,9 +175,17 @@
             input.value = name
         }
 
+        // Create Sort Icon
+        let sortIcon = document.createElement('div')
+        let icon = document.querySelector('#icon')
+        sortIcon.classList.add('task__sort')
+        sortIcon.innerHTML = icon.innerHTML
+
+
         // Add the task to the list
         task.appendChild(checkbox)
         task.appendChild(input)
+        task.appendChild(sortIcon)
         taskList.appendChild(task)
 
         // Focus on the new task
@@ -195,11 +207,12 @@
         createTask()
     }
 
-    // Handle click on Add Task button
-    const addTaskBtn = document.querySelector('[data-action="new-task"]')
-    addTaskBtn.addEventListener('click', (e) => {
-        e.preventDefault()
-        createTask()
+    // Make the tasks sortable
+    const tasksContainer = document.querySelector('.list')
+    const sortable = new Sortable(tasksContainer, {
+        onEnd: (e) => {
+            saveTasks()
+        }
     })
 
     // Save tasks every second, just incase
