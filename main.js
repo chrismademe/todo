@@ -55,7 +55,7 @@
      * Updates a task when it you check the checkbox
      */
     const handleCheckPress = (e) => {
-        updateTask(e.target.parentNode, e.target.checked)
+        updateTask(e.target.parentNode.parentNode, e.target.checked)
         saveTasks()
     }
 
@@ -67,15 +67,11 @@
      * Updates task state
      */
     const updateTask = (task, isDone) => {
-        let input = task.querySelector('input[type="text"]')
         
         if ( isDone ) {
-            input.classList.add('line-through', 'text-gray-400')
             setTimeout(() => {
                 removeTask(task)
             }, 250)
-        } else {
-            input.classList.remove('line-through', 'text-gray-400')
         }
 
         saveTasks()
@@ -153,15 +149,7 @@
         task.classList.add('task')
 
         // Create Task Checkbox
-        let checkbox = document.createElement('input')
-        checkbox.setAttribute('type', 'checkbox')
-        checkbox.classList.add('task__checkbox')
-        checkbox.addEventListener('click', handleCheckPress)
-
-        // Update checkbox state if isDone
-        if ( isDone ) {
-            checkbox.setAttribute('checked', true)
-        }
+        let checkbox = createCheckbox(isDone)
 
         // Create Task Input
         let input = document.createElement('input')
@@ -194,12 +182,39 @@
         saveTasks()
     }
 
-    // Get stored tasks
-    const tasks = localStorage.getItem('tasks')
+    // Create Checkbox
+    const createCheckbox = (isChecked) => {
+        let container = document.createElement('div')
+        container.classList.add('checkbox')
+        
+        let input = document.createElement('input')
+        input.setAttribute('type', 'checkbox')
+        input.setAttribute('name', 'checkbox')
+        input.addEventListener('click', handleCheckPress)
 
+        if ( isChecked ) {
+            input.setAttribute('checked', true)
+        }
+
+        let label = document.createElement('label')
+        label.setAttribute('for', 'checkbox')
+
+        container.appendChild(input)
+        container.appendChild(label)
+
+        return container
+    }
+
+    // Get stored tasks
+    let tasks = localStorage.getItem('tasks')
+
+    // Fix empty array in localStorage issue
     if ( tasks ) {
-        let taskList = JSON.parse(tasks)
-        taskList.forEach((task) => {
+        tasks = JSON.parse(tasks)
+    }
+    
+    if ( tasks.length !== 0 ) {
+        tasks.forEach((task) => {
             let { id, name, isDone } = task
             createTask(name, isDone, id)
         })
@@ -210,6 +225,7 @@
     // Make the tasks sortable
     const tasksContainer = document.querySelector('.list')
     const sortable = new Sortable(tasksContainer, {
+        filter: '.task__checkbox',
         onEnd: (e) => {
             saveTasks()
         }
