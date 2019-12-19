@@ -11,15 +11,25 @@
 <body>
 
     <div class="container">
-        <h1>Today</h1>
-        <ul class="list"></ul>
+        <div id="app">
+            <h1>{{ title }}</h1>
+            <ul class="list">
+                <c-task
+                    v-for="task in tasks"
+                    v-bind:id="task.id"
+                    v-bind:name="task.name"
+                    v-bind:done="task.isDone"
+                    v-bind:key="task.id"
+                ></c-task>
+            </ul>
+        </div>
     </div>
 
     <template id="icon">
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49.15 79.11"><title>sortable</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><circle cx="9.85" cy="9.85" r="9.85"/><circle cx="39.29" cy="9.85" r="9.85"/><circle cx="9.85" cy="39.55" r="9.85"/><circle cx="39.29" cy="39.55" r="9.85"/><circle cx="9.85" cy="69.26" r="9.85"/><circle cx="39.29" cy="69.26" r="9.85"/></g></g></svg>
     </template>
 
-<script src="vendor/sortable.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

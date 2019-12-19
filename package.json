@@ -1,0 +1,23 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.vanilla.js",
+  "scripts": {
+    "serve": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrismademe/todo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrismademe/todo/issues"
+  },
+  "homepage": "https://github.com/chrismademe/todo#readme",
+  "devDependencies": {
+    "express": "^4.17.1"
+  }
+}
