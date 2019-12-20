@@ -15,10 +15,8 @@
     // Get stored tasks
     let tasks = localStorage.getItem('tasks')
 
-    // Fix empty array in localStorage issue
-    if ( tasks ) {
-        tasks = JSON.parse(tasks)
-    } else {
+    tasks = JSON.parse(tasks)
+    if ( tasks.length === 0 ) {
         tasks = [
             {
                 id: generateTaskID(),
@@ -33,16 +31,17 @@
      */
     Vue.component('c-task', {
         props: ['id', 'name', 'done'],
-        template: `<li class="task" :ref="id" :data-id="id">
+        template: `<li class="task" :data-id="id">
             <div class="checkbox">
                 <input v-on:click="setTaskDone" type="checkbox" name="checkbox" :checked="done">
                 <label for="checkbox"></label>
             </div>
             <input
+                v-on:keyup="updateName"
                 v-on:keyup.enter="createNewTask"
                 v-model="name"
                 type="text" class="task__input"
-                :placeholder="name ? false : 'What do you need to do?'"
+                :placeholder="setPlaceholder"
                 >
         </li>`,
         methods: {
@@ -62,6 +61,15 @@
                 }
 
                 app.tasks.push(newTask)
+            },
+            updateName: function(event) {
+                let name = this.name
+                this.$emit('update-name', name)
+            }
+        },
+        computed: {
+            setPlaceholder: function() {
+                return this.name ? false : 'What do you need to do?'
             }
         }
     })
