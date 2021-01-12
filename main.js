@@ -213,7 +213,7 @@
         tasks = JSON.parse(tasks)
     }
     
-    if ( tasks.length !== 0 ) {
+    if ( tasks && tasks.length !== 0 ) {
         tasks.forEach((task) => {
             let { id, name, isDone } = task
             createTask(name, isDone, id)
