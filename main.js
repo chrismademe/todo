@@ -205,6 +205,20 @@
         return container
     }
 
+    // Flip Checkbox Styles
+    let flipSwitch = document.querySelector('.switch [type="checkbox"]');
+
+    flipSwitch.addEventListener('change', (event) => {
+        // Get list container
+        let list = document.querySelector('.list');
+
+        if ( event.target.checked ) {
+            list.classList.add('list--flipped');
+        } else {
+            list.classList.remove('list--flipped');
+        }
+    });
+
     // Get stored tasks
     let tasks = localStorage.getItem('tasks')
 
